@@ -222,11 +222,21 @@ abstract class BaseMongoRecord
 	}
 
 	// core conventions
+
+	protected static function getCollectionName()
+	{
+		if(isset(self::$collectionName)){
+			return static::$collectionName;
+		}else{
+			$className = get_called_class();
+			$inflector = Inflector::getInstance();
+			return $inflector->tableize($className);
+		}
+	}
+
 	protected static function getCollection()
 	{
 		$className = get_called_class();
-		$inflector = Inflector::getInstance();
-		$collection_name = $inflector->tableize($className);
 
 		if ($className::$database == null)
 			throw new Exception("BaseMongoRecord::database must be initialized to a proper database string");
@@ -237,7 +247,7 @@ abstract class BaseMongoRecord
 		if (!($className::$connection->connected))
 			$className::$connection->connect();
 
-		return $className::$connection->selectCollection($className::$database, $collection_name);
+		return $className::$connection->selectCollection($className::$database, self::getCollectionName());
 	}
 
 	public static function setFindTimeout($timeout)
