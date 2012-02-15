@@ -50,7 +50,11 @@ class MongoRecordIterator
 	{
 		if ($document)
 		{
-			$className = $this->className;
+			if(isset($document['type'])){
+				$className = $document['type'];
+			}else{
+				$className = $this->className;
+			}
 			return new $className($document, false);
 		}
 		else
