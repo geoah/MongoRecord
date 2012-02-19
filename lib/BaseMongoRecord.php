@@ -225,7 +225,7 @@ abstract class BaseMongoRecord
 
 	protected static function getCollectionName()
 	{
-		if(isset(self::$collectionName)){
+		if(isset(static::$collectionName)){
 			return static::$collectionName;
 		}else{
 			$className = get_called_class();

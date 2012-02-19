@@ -51,7 +51,8 @@ class MongoRecordIterator
 		if ($document)
 		{
 			if(isset($document['type'])){
-				$className = $document['type'];
+				//bug This is a hack and MUST be changed.
+				$className = 'Model\\Node\\'.$document['type'];
 			}else{
 				$className = $this->className;
 			}
